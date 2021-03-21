@@ -34,10 +34,10 @@ class ParticularList extends React.Component {
         this.setState({ users: data});
       })
   }
-  handleClickEdit(event,id){
+  handleClickDetails(event,id){
     event.preventDefault();
-    localStorage.setItem('idp',id)
-    window.location.href="/admin/updateUser/"
+    localStorage.setItem('idparticular',id)
+    window.location.href="/admin/ParticularDetails/"
 
   }
   handleClickDelete(evt,id){
@@ -79,9 +79,8 @@ class ParticularList extends React.Component {
                       <th scope="col">Téléphone</th>
                       <th scope="col">Genre</th>
                       <th scope="col">Age</th>
-                      <th scope="col">Compte</th>
+                      <th scope="col">Détails</th>
                       <th scope="col">Supprimer</th>
-                      <th scope="col">Modifier</th>
                    
 
                     </tr>
@@ -97,10 +96,9 @@ class ParticularList extends React.Component {
                             <td>{item.phoneNumber}</td>
                             <td>{item.gender}</td>
                             <td>{item.age}</td>
-                            <td><i class= "ni ni-badge text-success" onClick ={ evt => this.handleClickDelete(evt, item._id)}></i> </td> 
+                            <td><i class= "ni ni-badge text-success" onClick ={ evt => this.handleClickDetails(evt, item.id)}></i> </td> 
                              <td><i class= "ni ni-basket text-red" onClick ={ evt => this.handleClickDelete(evt, item.id)}></i> </td> 
-                            <td><i class= "ni ni-paper-diploma text-blue" onClick ={ evt => this.handleClickEdit(evt, item.id)}></i></td> 
-                           
+
                           </tr>
                         )
                       })

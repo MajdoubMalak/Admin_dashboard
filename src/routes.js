@@ -6,6 +6,8 @@ import ParticularList from "views/Gestion_Utilisateurs/ParticularList";
 import OrganisatorList from "views/Gestion_Utilisateurs/OrganisatorList";
 import ServiceProvidersList from "views/Gestion_Utilisateurs/ServiceProvidersList";
 import AddUser from "views/Gestion_Utilisateurs/AddUser";
+import UpdateParticular from "views/Gestion_Utilisateurs/UpdateParticular";
+import ParticularDetails from "views/Gestion_Utilisateurs/ParticularDetails";
 var routes = [
    {
     path: "/index",
@@ -22,6 +24,7 @@ var routes = [
   component : ParticularList,
   layout:"/admin"
   },
+
   {
     path :"/Organisators",
     name :"Liste des organisateurs",
@@ -51,13 +54,13 @@ var routes = [
         layout:"/admin"
         },
 
-          {
-            path: "/login",
-            name: "Se déconnecter",
-            icon: "ni ni-user-run text-success",
-            component: Login,
-            layout: "/auth"
-          }, 
+           {
+             path: "/login",
+             //name: "Se déconnecter",
+             //icon: "ni ni-user-run text-success",
+             component: Login,
+             layout: "/auth"
+           }, 
  
   {
      path: "/icons",
@@ -66,5 +69,15 @@ var routes = [
      component: Icons,
      layout: "/admin"
    },
+   {
+    path :"/UpdateParticular",
+    component : UpdateParticular,
+    layout:"/admin"
+    },
+    {
+      path :"/ParticularDetails",
+      component : ParticularDetails,
+      layout:"/admin"
+      },
 ];
 export default routes;

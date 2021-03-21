@@ -3,6 +3,8 @@ import Header from "components/Headers/Header.js";
 import React from "react";
 import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 import {  Card, CardHeader, CardBody,FormGroup,Form,Input,Row,Col,Container, Button} from "reactstrap";
+import { AvForm, AvField, AvGroup } from 'availity-reactstrap-validation';
+import PhoneInput from 'react-phone-number-input'
 import "react-web-tabs/dist/react-web-tabs.css";
 import axios from 'axios';
 
@@ -19,37 +21,7 @@ class AddUser extends React.Component {
       file: null,
     };
   }
-//   validate = () => {
-//     let isError = false;
-//     const errors = {
-//       emailErr:'',
-//       phoneErr:'',
-//     }
 
-//     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-//     if ( !regex.test(this.state.email)) {
-
-//       isError = true;
-//       errors.emailErr = 'please check your email'
-//       console.log("error")
-//     }
-//     if ((this.state.phone === '') || (this.state.phone.length <8) ) {
-//       isError = true;
-//       errors.phoneErr = 'please check your phone'
-//     }
-//     if(isError){
-//     this.setState({
-// ...this.state,
-// ...errors
-//     })
-//   }
-//   this.setState({
-//     erreur:isError
-//   })
-//     return isError;
- // }
- 
    envoyer() {
      console.log('username', this.state.username);
      console.log('username', this.state.gender);
@@ -63,16 +35,20 @@ class AddUser extends React.Component {
       })
       .then(res =>{
           console.log("data", res.data);
+          if(res.data=="user name exist !"){alert ('Nom existe')}
+          else if (res.data=="user email exist !"){alert ('adresse email existe')}
+          else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
+          else{
           alert ('Utilisateur ajouté')
-     
+          }
   
       })
 
        }
-       handleChange(event){
-         console.log('champ choisi', event.target.value );
-        this.setState({gender: event.target.value})
-       }
+ handleChange(event){
+    console.log('champ choisi', event.target.value );
+    this.setState({gender: event.target.value})
+    }
     
   render() {
     const value = 0;
@@ -101,69 +77,101 @@ class AddUser extends React.Component {
                   {/* ///////////////////////Particulier//////////////////////////////////////////        */}
                   <TabPanel tabId="one">
                     <CardBody>
-                      <Form>
+                    <AvForm>
                         <Row>
                           <Col className="pr-1" md="3">
-                            <FormGroup>
+                            <AvGroup>
                               <label>Nom de l'utilisateur</label>
-                              <Input placeholder="Username" name="username" type="text"
-                              value={this.state.username}
-                              onChange={event => this.setState({ username: event.target.value })} />
-                            </FormGroup>
+                                        <AvField placeholder="Username" name="username" type="text" required
+                                        errorMessage="Nom Invalide" validate={{
+                                          required: {value: true, errorMessage: 'Ce champ est obligatoire'},
+                                          minLength: {value: 6, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
+                                          maxLength: {value: 16, errorMessage: 'Le nom doit être entre 4 et 16 caractères'}
+                                        }}
+                                        value={this.state.username}
+                                        onChange={event => this.setState({ username: event.target.value })} />
+                            </AvGroup>
                           </Col>
-                          <Col className="pl-1" md="3">
-                            <FormGroup>
-                              <label htmlFor="Email">Email address</label>
-                              <Input placeholder="Email" name="email" type="email"
-                               value={this.state.email}
-                               onChange={event => this.setState({ email: event.target.value })} />
-                            </FormGroup>
+                          <Col className="pr-1" md="3">
+                            <AvGroup>
+                              <label htmlFor="Email">Address Email</label>
+                                         <AvField placeholder="Email" name="originalEmail" type="email" required
+                                         errorMessage="Nom invalide" validate={{
+                                         required: {value: true, errorMessage: 'Ce champ est obligatoire'},
+                                         pattern: {value: '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+', errorMessage: ' ne correspnd à une adresse email'}
+                                         }}
+                                          value={this.state.email}
+                                          onChange={event => this.setState({ email: event.target.value })} />
+            
+                                          
+                            </AvGroup>
                           </Col>
-                          <Col className="pl-1" md="2">
-                            <FormGroup>
-                              <label htmlFor="phone">Téléphone</label>
-                              <Input placeholder="Téléphone" name="phoneNumber" type="text" 
-                               onChange={event => this.setState({ phoneNumber: event.target.value })}/>
-                            </FormGroup>
-                          </Col>
-                          <Col className="pl-1" md="3">
-                            <FormGroup>
+                          <Col className="pr-1" md="3">
+                            <AvGroup>
                               <label htmlFor="password">Mot de passe</label>
-                              <Input
-                                placeholder="Mot de passe" name="password" type="password" 
-                                onChange={event => this.setState({ password: event.target.value })}/>
-                            </FormGroup>
+                                        <AvField
+                                          placeholder="Mot de passe" name="originalpassword" type="password" required
+                                          errorMessage="Mot de passe invalide" validate={{
+                                            required: {value: true, errorMessage: 'Ce champ est obligatoire'},
+                                            minLength: {value: 6, errorMessage: 'Le mot de passe doit être entre 4 et 16 caractères'},
+                                            maxLength: {value: 16,  errorMessage: 'Le mot de passe doit être entre 4 et 16 caractères'}
+                                          }}
+                                           onChange={event => this.setState({ password: event.target.value })}/>
+                            </AvGroup>  
+                          </Col>   
+                          <Col className="pr-1" md="3">
+                          <AvGroup>
+                               
+                                         <AvField name="confirmationPassword"  placeholder="Confirmer le mot de passe" label="Confirmer le mot de passe" type="password" validate={{match:{value:'originalpassword', errorMessage:"mot de passe incorrecte"}}}/>
+                           </AvGroup>
                           </Col>
                         </Row>
 
                         <Row>
-                          <Col className="pr-1" md="1">
-                            <FormGroup>
+                        <Col className="pr-5" md="3">
+                            <AvGroup>
+                                          <label htmlFor="phone">Téléphone</label>
+                                          <AvField placeholder="Numéro de téléphone" name="phoneNumber" type="text" required
+                                            errorMessage="Numéro de Téléphone invalide" validate={{
+                                              required: {value: true, errorMessage: 'Ce champ est obligatoire'},
+                                              minLength: {value: 8, errorMessage: 'Numéro de téléphone invalide'},
+                                              maxLength: {value: 8,  errorMessage: 'Numéro de téléphone invalide'}
+                                              }}
+                                          onChange={event => this.setState({ phoneNumber: event.target.value })}/>
+                            </AvGroup>
+                          </Col>
+                          <Col className="pr-5" md="2">
+                            <AvGroup>
                               <label>Age</label>
-                              <Input placeholder="Age" type="number" name="age"
-                                onChange={event => this.setState({ age: event.target.value })}/>
-                            </FormGroup>
+                                            <AvField placeholder="Age" type="number" name="age" max="100" min="5" required
+                                            errorMessage="Age invalide" validate={{
+                                              required: {value: true, errorMessage: 'Ce champ est obligatoire'},
+                                        
+                                            }}
+                                              onChange={event => this.setState({ age: event.target.value })}/>
+                            </AvGroup>
                           </Col>
 
-                          <Col className="pl-1" md="2">
-                            <FormGroup>
-                              <label for="Genre">Genre</label>
-                              <Input type="select" name="Genre" id="Genre" value={this.state.value} onChange={event => this.setState({gender: event.target.value})}>
-                            
-                                <option>Femme</option>
-                                <option>Homme</option>
-                                <option>Autre</option>
-                              </Input>
-                            </FormGroup>
+                          <Col className="pr-1" md="2">
+                            <AvGroup>
+                                          <label for="Genre">Genre</label>
+                                          <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({gender: event.target.value})}>
+                                        
+                                            <option>Autre</option>
+                                            <option>Homme</option>
+                                            <option>Femme</option>
+                                          </AvField>
+                            </AvGroup>
+ 
                           </Col>
                           </Row>
                           <Row>
-                          <Col className="pl-1" md="9"> 
+                          <Col className="pr-1" md="3"> 
                           <Button onClick ={ () => this.envoyer()}>Ajouter</Button>
                           </Col>
                           </Row>
 
-                      </Form>
+                          </AvForm>
                     </CardBody>
                   </TabPanel>
                   {/* ///////////////////////Organisateur//////////////////////////////////////////        */}
