@@ -26,18 +26,32 @@ import axios from 'axios';
            console.log("data", data)
           this.setState({username: data.username, email: data.email, phoneNumber: data.phoneNumber, age:data.age, gender:data.gender, activated:data.activated})
           console.log('phoneNumber', this.state.phoneNumber);
-          const activation ="Compte non activé"
-          if(this.state.activated == true){  activation= "Compte activé"}
-          console.log('statut du compte', activation);
-          this.setState({activated: activation})
+          if(this.state.activated == true){  this.setState({activated: "compte activé"})}
+          else {this.setState({activated: "compte non activé"})}
+
        })
       } 
    handleSubmit(){
-   
       window.location.href="/admin/UpdateParticular/"
-  
-
      }
+   ActivateAccount(){
+       if(this.state.activated=="compte activé"){alert('Compte déja activé')}
+       else {
+        const token = localStorage.getItem('BearerToken');
+        console.log('token', token);
+        const url= "http://localhost:3100/users/AdminActivateAccount/"+localStorage.getItem('idparticular')
+        axios.patch(url,{}, {
+          headers: {
+            'Authorization': `Bearer ${token}` 
+          }
+        }).then(res =>{
+
+          alert ('Compte activé')
+
+         
+        })
+       }
+   }  
     
 
 render() {
