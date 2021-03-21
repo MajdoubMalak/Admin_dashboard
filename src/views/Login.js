@@ -7,27 +7,29 @@ class Login extends React.Component {
   constructor() {
     super()
     this.state = {
-      email: '',
+      username: '',
       password: '',
     }
   }
   envoyer(id){
-    axios.post("http://localhost:3000/Employee/authenticate", {
-    email:this.state.email,
+    axios.post("http://localhost:3100/Admin/login", {
+    username:this.state.username,
     password:this.state.password,
     })
     .then(res =>{
         console.log("data", res.data);
-        console.log("statut", res.data['status'])
-        if (res.data['status']==="error"){
-          alert ("Verify your account email adress or password")
-        }
-        else{
-        //alert ('Welcom to our Carpooling App')
-        localStorage.setItem('idp',res.data.data.user._id)
-        console.log('idEmployee',res.data.data.user._id)
-        window.location.href="/auth/index"
-      }
+      
+         if (res.data==="wrong admin taped"){
+           alert ("Vérifier l'administrateur")
+         }
+         else if (res.data==="wrong password inserted taped"){
+          alert ("Vérifier le mot de passe")
+         }
+         else{
+          localStorage.setItem('BearerToken',res.data)
+          console.log('Bearer Token',res.data)
+          window.location.href="/admin"
+       }
 
     })
         
@@ -42,29 +44,24 @@ class Login extends React.Component {
                 
 
               <FormGroup>
-        <Label for="exampleEmail">Email</Label>
-        <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
+        <Label for="adresse email">Administrateur</Label>
+        <Input type="email" name="email" id="Email" placeholder="username"
+        value={this.state.username}
+        onChange={event => this.setState({ username: event.target.value })} />
       </FormGroup>
       <FormGroup>
-        <Label for="examplePassword">Password</Label>
-        <Input type="password" name="password" id="examplePassword" placeholder="password placeholder" />
+        <Label for="Mot de passe">Mot de passe</Label>
+        <Input type="password" name="password" id="Password" placeholder="mot de passe"
+          onChange={event => this.setState({ password: event.target.value })} />
+        
       </FormGroup>
-      <Col sm={{ size: 10, offset: 2 }}>
-          <Button>Se connecter</Button>
+      <Col sm={{ size: 10, offset: 3 }}>
+          <Button onClick ={ () => this.envoyer()}>Se connecter</Button>
         </Col>
               </Form> 
-
-           
             </CardBody>
-       
-
           </Card>
-
-        </Col>
-        
-                   
-       
-        
+        </Col>   
       </>
     );
   }

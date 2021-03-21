@@ -27,11 +27,11 @@ class ParticularList extends React.Component {
     this.getAllUsers()
   }
   getAllUsers() {
-    fetch("http://localhost:3000/Employee/getEmployees", { method: 'GET' })
+    fetch("http://localhost:3100/users", { method: 'GET' })
       .then(response => response.json())
       .then(data => {
         console.log('getting users', data);
-        this.setState({ users: data.data });
+        this.setState({ users: data});
       })
   }
   handleClickEdit(event,id){
@@ -47,8 +47,9 @@ class ParticularList extends React.Component {
   }
   remove(id){
     console.log('id',id)
-
-    fetch('http://localhost:3000/Employee/delete/' +id, {method: 'DELETE'})
+    const token = localStorage.getItem('BearerToken');
+    console.log('token', token);
+    fetch('http://localhost:3100/users/' +id, {method: 'DELETE', headers:{ Authorization: `Bearer ${token}` }})
     .then(response => response.json())
     .then(data => {
       console.log('remove',data);
@@ -72,15 +73,16 @@ class ParticularList extends React.Component {
                 <Table className="align-items-center table-flush" responsive>
                   <thead className="thead-light">
                     <tr>
-                      <th scope="col">Photo</th>
-                      <th scope="col">Pseudo</th>
-                      <th scope="col">Email</th>
+                    <th scope="col">Photo</th>
+                      <th scope="col">Nom de l'utilisateur</th>
+                      <th scope="col">Adresse Email</th>
                       <th scope="col">Téléphone</th>
                       <th scope="col">Genre</th>
                       <th scope="col">Age</th>
-                      <th scope="col">Téléphone</th>
+                      <th scope="col">Compte</th>
                       <th scope="col">Supprimer</th>
                       <th scope="col">Modifier</th>
+                   
 
                     </tr>
                   </thead>
@@ -89,16 +91,16 @@ class ParticularList extends React.Component {
                       this.state.users.map((item, index) => {
                         return (
                           <tr key={index}>
-                            <td>{item.name}</td>
-                            <td>{item.surname}</td>
+                            <td><img src={`http://localhost:3100/users/getprofilepicture/${item.profilepicture}`} height="50" width="50"/></td>
+                            <td>{item.username}</td>
                             <td>{item.email}</td>
-                            <td>{item.phone}</td>
-                            <td><img src={`http://localhost:3000/sendFile/${item.image}`} height="50" width="50"/></td>
-                             <td><i class= "ni ni-basket text-red" onClick ={ evt => this.handleClickDelete(evt, item._id)}></i> </td> 
-                            <td><i class= "ni ni-paper-diploma text-green" onClick ={ evt => this.handleClickEdit(evt, item._id)}></i></td> 
+                            <td>{item.phoneNumber}</td>
+                            <td>{item.gender}</td>
+                            <td>{item.age}</td>
+                            <td><i class= "ni ni-badge text-success" onClick ={ evt => this.handleClickDelete(evt, item._id)}></i> </td> 
+                             <td><i class= "ni ni-basket text-red" onClick ={ evt => this.handleClickDelete(evt, item.id)}></i> </td> 
+                            <td><i class= "ni ni-paper-diploma text-blue" onClick ={ evt => this.handleClickEdit(evt, item.id)}></i></td> 
                            
-                            
-
                           </tr>
                         )
                       })
