@@ -6,9 +6,16 @@ import ParticularList from "views/Gestion_Utilisateurs/ParticularList";
 import OrganisatorList from "views/Gestion_Utilisateurs/OrganisatorList";
 import ServiceProvidersList from "views/Gestion_Utilisateurs/ServiceProvidersList";
 import AddUser from "views/Gestion_Utilisateurs/AddUser";
-import UpdateParticular from "views/Gestion_Utilisateurs/UpdateParticular";
 import ParticularDetails from "views/Gestion_Utilisateurs/ParticularDetails";
+//import Profile from "views/examples/Profile";
 var routes = [
+  // {
+  //   path: "/user-profile",
+  //   name: "User Profile",
+  //   icon: "ni ni-single-02 text-yellow",
+  //   component: Profile,
+  //   layout: "/admin",
+  // },
    {
     path: "/index",
     name: "Home",
@@ -62,18 +69,13 @@ var routes = [
              layout: "/auth"
            }, 
  
-  {
-     path: "/icons",
-     name: "Icons",
-     icon: "ni ni-planet text-blue",
-     component: Icons,
-     layout: "/admin"
-   },
-   {
-    path :"/UpdateParticular",
-    component : UpdateParticular,
-    layout:"/admin"
-    },
+  // {
+  //    path: "/icons",
+  //    name: "Icons",
+  //    icon: "ni ni-planet text-blue",
+  //    component: Icons,
+  //    layout: "/admin"
+  //  },
     {
       path :"/ParticularDetails",
       component : ParticularDetails,

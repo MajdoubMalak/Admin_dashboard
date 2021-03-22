@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Argon Dashboard - v1.1.2
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard
-* Copyright 2018 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 :root {
   --blue: #5e72e4;
   --indigo: #5603ad;
@@ -189,7 +173,9 @@ figure {
 
 img {
   vertical-align: middle;
-  border-style: none; }
+  border-style: none;
+  overflow:hidden;
+  }  
 
 svg {
   overflow: hidden;
@@ -313,7 +299,6 @@ template {
 
 [hidden] {
   display: none !important; }
-
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: 0.5rem;
@@ -376,6 +361,14 @@ small,
   font-weight: 400; }
 
 mark,
+.profilePicture{
+  overflow:hidden;
+  -webkit-border-radius:50px;
+  -moz-border-radius:50px;
+  border-radius:50px;
+  width:90px;
+  height:90px; 
+}
 .mark {
   padding: 0.2em;
   background-color: #fcf8e3; }
@@ -520,7 +513,9 @@ pre {
 .col {
   flex-basis: 0;
   flex-grow: 1;
-  max-width: 100%; }
+  max-width: 100%;
+  }
+
 
 .col-auto {
   flex: 0 0 auto;
@@ -5712,6 +5707,14 @@ button.bg-darker:focus {
   margin: -6rem !important; }
 
 .mt--7,
+.mt--7 .img {
+  overflow:hidden;
+  -webkit-border-radius:50px;
+  -moz-border-radius:50px;
+  border-radius:50px;
+  width:90px;
+  height:90px;
+}
 .my--7 {
   margin-top: -6rem !important; }
 
