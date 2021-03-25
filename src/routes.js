@@ -7,6 +7,9 @@ import OrganisatorList from "views/Gestion_Utilisateurs/OrganisatorList";
 import ServiceProvidersList from "views/Gestion_Utilisateurs/ServiceProvidersList";
 import AddUser from "views/Gestion_Utilisateurs/AddUser";
 import ParticularDetails from "views/Gestion_Utilisateurs/ParticularDetails";
+import OrganisatorDetails from "views/Gestion_Utilisateurs/OrganisatorDetails";
+import ServiceProviderDetails from "views/Gestion_Utilisateurs/ServiceProviderDetails";
+import Tables from "views/examples/Tables.js";
 //import Profile from "views/examples/Profile";
 var routes = [
   // {
@@ -16,6 +19,7 @@ var routes = [
   //   component: Profile,
   //   layout: "/admin",
   // },
+
    {
     path: "/index",
     name: "Home",
@@ -81,5 +85,23 @@ var routes = [
       component : ParticularDetails,
       layout:"/admin"
       },
+      {
+        path :"/OrganisatorDetails",
+        component : OrganisatorDetails,
+        layout:"/admin"
+        },
+        {
+          path :"/ServiceProviderDetails",
+          component : ServiceProviderDetails,
+          layout:"/admin"
+          },
+          {
+            path: "/tables",
+            name: "Tables",
+            icon: "ni ni-bullet-list-67 text-red",
+            component: Tables,
+            layout: "/admin",
+          },
+
 ];
 export default routes;

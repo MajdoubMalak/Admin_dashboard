@@ -3,7 +3,7 @@ import Header from "components/Headers/Header.js";
 import {  Card, CardHeader, CardBody,Row,Col,Container, Button,FormGroup,Form,Input} from "reactstrap";
 import { AvForm, AvField, AvGroup } from 'availity-reactstrap-validation';
 import axios from 'axios';
- class ParticularDetails extends React.Component {
+ class ServiceProviderDetails extends React.Component {
    constructor(){
        super()
        this.state={
@@ -14,6 +14,10 @@ import axios from 'axios';
         gender:'',
         activated:'',
         image:'',
+        region:'',
+        category:'',
+        company:'',
+        rank:'',
        }
        this.getOne()
    }
@@ -21,11 +25,12 @@ import axios from 'axios';
         this.getOne()
       }
     getOne(){
-        console.log('id',localStorage.getItem('idparticular'));
-        const element = fetch("http://localhost:3100/users/" + localStorage.getItem('idparticular'))
+        console.log('id',localStorage.getItem('idserviveprovider'));
+        const element = fetch("http://localhost:3100/ServiceProvidor/" + localStorage.getItem('idserviveprovider'))
        .then(response => response.json()).then(data => {
            console.log("data", data)
-          this.setState({username: data.username, email: data.email, phoneNumber: data.phoneNumber, age:data.age, gender:data.gender, activated:data.activated, image:data.profilePicture})
+          this.setState({username: data.username, email: data.email, phoneNumber: data.phoneNumber, age:data.age, gender:data.gender, activated:data.activated,
+           image:data.profilePicture,region:data.region,category:data.category,company:data.company, rank:data.rank})
           console.log('phoneNumber', this.state.phoneNumber);
           if(this.state.activated == true){  this.setState({activated: "compte activé"})}
           else {this.setState({activated: "compte non activé"})}
@@ -35,13 +40,16 @@ import axios from 'axios';
       handleSubmit(){
         const token = localStorage.getItem('BearerToken');
         console.log('username', this.state.username )
-        const url= "http://localhost:3100/users/"+localStorage.getItem('idparticular')
+        const url= "http://localhost:3100/ServiceProvidor/"+localStorage.getItem('idserviveprovider')
         axios.patch(url, {
-          username:this.state.username,
+          serviceprovidorname:this.state.username,
           email:this.state.email,
           phoneNumber:this.state.phoneNumber,
           age:this.state.age,
-          gender:this.state.gender
+          gender:this.state.gender,
+          company:this.state.company,
+          region:this.state.region,
+          category:this.state.category
         }, {
           headers: {
             'Authorization': `Bearer ${token}` 
@@ -53,7 +61,7 @@ import axios from 'axios';
           else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
           else{
           alert ('Utilisateur modifié')
-          window.location.href="/admin/Particulars/"
+          window.location.href="/admin/ServiceProviders/"
           }
         })
     
@@ -63,7 +71,7 @@ import axios from 'axios';
        else {
         const token = localStorage.getItem('BearerToken');
         console.log('token', token);
-        const url= "http://localhost:3100/users/AdminActivateAccount/"+localStorage.getItem('idparticular')
+        const url= "http://localhost:3100/ServiceProvidor/AdminActivateAccount/"+localStorage.getItem('idserviveprovider')
         axios.patch(url,{}, {
           headers: {
             'Authorization': `Bearer ${token}` 
@@ -79,132 +87,6 @@ import axios from 'axios';
     
 
 render() {
-    // return (
-    //   <>
-    //     <Header />
-    //     <Container className="mt--7" fluid>
-    //     <div >
-          
-    //       <Row>
-    //       <Col md="8">
-    //         <Card >
-    //             <CardHeader className="border-0">
-    //               <h3 className="mb-0">Modifier l'utilisateur {this.state.username} </h3>            
-    //             </CardHeader>
-    //             <CardBody>
-    //                 <AvForm>
-    //                     <Row>
-    //                       <Col className="pr-1" md="3">
-    //                         <AvGroup>
-    //                           <label>Nom de l'utilisateur</label>
-    //                                     <AvField placeholder="Username" name="username" type="text" defaultValue={this.state.username}
-    //                                     errorMessage="Nom Invalide" validate={{
-    //                                       minLength: {value: 6, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
-    //                                       maxLength: {value: 16, errorMessage: 'Le nom doit être entre 4 et 16 caractères'}
-    //                                     }}
-    //                                     value={this.state.username}
-    //                                     onChange={event => this.setState({ username: event.target.value })} />
-    //                         </AvGroup>
-    //                       </Col>
-    //                       <Col className="pr-1" md="3">
-    //                         <AvGroup>
-    //                           <label htmlFor="Email">Address Email</label>
-    //                                      <AvField placeholder="Email" name="originalEmail" type="email"  defaultValue={this.state.email}
-    //                                      errorMessage="Nom invalide" validate={{
-    //                                      pattern: {value: '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+', errorMessage: ' ne correspnd à une adresse email'}
-    //                                      }}
-    //                                       value={this.state.email}
-    //                                       onChange={event => this.setState({ email: event.target.value })} />
-                                    
-    //                         </AvGroup>
-    //                         </Col>
-    //                         <Col className="pr-1" md="3"> 
-    //                         <AvGroup>
-    //                                       <label htmlFor="phone">Téléphone</label>
-    //                                       <AvField placeholder="Numéro de téléphone" name="phoneNumber" type="text" defaultValue={this.state.phoneNumber} 
-    //                                         errorMessage="Numéro de Téléphone invalide" validate={{
-
-    //                                           minLength: {value: 8, errorMessage: 'Numéro de téléphone invalide'},
-    //                                           maxLength: {value: 8,  errorMessage: 'Numéro de téléphone invalide'}
-    //                                           }}
-    //                                       onChange={event => this.setState({ phoneNumber: event.target.value })}/>
-    //                         </AvGroup>
-    //                       </Col>
-    //                       </Row>
-    //                       <Row>
-    //                       <Col className="pr-1" md="3">
-    //                         <AvGroup>
-    //                           <label>Age</label>
-    //                                         <AvField placeholder="Age" type="number" name="age" max="100" min="5" //defaultValue={this.state.age} 
-    //                                         errorMessage="Age invalide" 
-    //                                           onChange={event => this.setState({ age: event.target.value })}/>
-    //                         </AvGroup>
-    //                       </Col>
-
-    //                       <Col className="pr-1" md="3">
-    //                         <AvGroup>
-    //                                       <label for="Genre">Genre</label>
-    //                                       <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.gender} onChange={event => this.setState({gender: event.target.value})}>
-                                        
-    //                                         <option>Autre</option>
-    //                                         <option>Homme</option>
-    //                                         <option>Femme</option>
-    //                                       </AvField>
-    //                         </AvGroup>
-    //                         </Col>
-    //                         </Row>
-
-    //                       <Row>
-    //                       <Col className="pr-1" md="3"> 
-    //                       <Button onClick ={ () => this.handleSubmit()}>Modifier</Button>
-    //                       </Col>
-    //                       </Row>
-
-    //                       </AvForm>
-    //                 </CardBody>
-
-    //           </Card>
-    //         </Col> 
-    //       <Col md="4">
-    //           <Card>
-    //           <div className="rounded-circle">
-    //               <img src={`http://localhost:3100/users/getprofilepicture/${this.state.image}`} height="100" width="100"  />
-    //             </div>
-    //             <CardHeader >
-    //               <h3 className="mb-0"> Détails du compte </h3>
-    //               <br></br>
-    //               <p><font color="blue"> {this.state.activated} </font> </p>
-               
-                 
-    //               <h5><b>Nom utilisateur: </b>{this.state.username} </h5>
-    //               <h5><b>Adresse email:</b> {this.state.email} </h5> 
-    //               <h5><b>Numéro de téléphone:</b> {this.state.phoneNumber} </h5>      
-    //               <h5><b>Genre: </b>{this.state.gender} </h5>
-    //               <h5><b>Age:</b> {this.state.age} </h5>               
-    //             </CardHeader>
-    //             <CardBody>
-    //                 <AvForm>
-    //                 <Row>
-    //                       <Col className="pr-10" md="4"> 
-    //                       <AvGroup>
-    //                       <Button onClick ={ () => this.ActivateAccount()}>Activer  le  compte</Button>
-    //                       </AvGroup>
-    //                    </Col>
-    //                       </Row>
-
-    //                       </AvForm>
-    //                 </CardBody>
-
-    //           </Card>
-    //         </Col>
-           
-    //       </Row>
-    //       </div>
-
-
-    //     </Container>
-    //   </>
-    // );
     return (
       <>
      <Header />
@@ -226,7 +108,7 @@ render() {
                         <img
                           alt="..."
                           className="rounded-circle"
-                          src={`http://localhost:3100/users/getprofilepicture/${this.state.image}`}
+                          src={`http://localhost:3100/ServiceProvidor/getprofilepicture/${this.state.image}`}
                           height="150" width="150"
                         />
                       </a>
@@ -246,10 +128,10 @@ render() {
                           <span className="heading">0</span>
                           <span className="description">abonnés</span>
                         </div>
-                        {/* <div>
-                          <span className="heading">89</span>
-                          <span className="description">Comments</span>
-                        </div> */}
+                        <div>
+                          <span className="heading">{this.state.rank}</span>
+                          <span className="description">Likes</span>
+                        </div> 
                       </div>
                     </div>
                   </Row>
@@ -262,7 +144,10 @@ render() {
                     <div className="h5 font-weight-300">
                       
                    <h5><b>Adresse email:</b> {this.state.email} </h5> 
-                   <h5><b>Numéro de téléphone:</b> {this.state.phoneNumber} </h5>      
+                   <h5><b>Numéro de téléphone:</b> {this.state.phoneNumber} </h5>    
+                   <h5><b>Société</b> {this.state.company} </h5> 
+                   <h5><b>Catégorie:</b> {this.state.category} </h5>  
+                   <h5><b>Region:</b> {this.state.region} </h5>  
                    <h5><b>Genre: </b>{this.state.gender} </h5>
                    <h5><b>Age:</b> {this.state.age} </h5>   
                     </div>
@@ -280,7 +165,7 @@ render() {
                 <CardHeader className="bg-white border-0">
                   <Row className="align-items-center">
                     <Col xs="8">
-                      <h3 className="mb-0">Modifier Compte</h3>
+                      <h3 className="mb-0">Modifier le compte</h3>
                     </Col>
                   </Row>
                 </CardHeader>
@@ -320,12 +205,43 @@ render() {
                                                minLength: {value: 8, errorMessage: 'Numéro de téléphone invalide'},
                                                maxLength: {value: 8,  errorMessage: 'Numéro de téléphone invalide'}
                                                }}
-                                               value={this.state.phoneNumber}
+                                            value={this.state.phoneNumber}
                                            onChange={event => this.setState({ phoneNumber: event.target.value })}/>
                              </AvGroup>
                            </Col>
                            </Row>
                            <Row>
+                           <Col className="pr-1" md="4">
+                            <FormGroup>
+                              <label htmlFor="company">Société</label>
+                              <Input placeholder="Indépendant" type="text"  defaultValue={this.state.company}
+                              value={this.state.company}
+                              onChange={event => this.setState({ company: event.target.value })} />
+                            </FormGroup>
+                            </Col>
+                           <Col className="pr-1" md="4">
+                            <AvGroup>
+                                           <label for="Genre">Catégorie</label>
+                                           <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.category} onChange={event => this.setState({category: event.target.value})}>
+                                           <option>Festival</option>
+                                            <option>Mariage</option>
+                                            <option>Autre</option>
+                                  
+                                           </AvField>
+                             </AvGroup>
+                          </Col>
+                          <Col className="pr-1" md="4">
+                
+                            <AvGroup>
+                                           <label for="Genre">Région</label>
+                                           <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.region} onChange={event => this.setState({region: event.target.value})}>
+                                        
+                                           <option>Sousse</option>
+                                           <option>Sfax</option>
+                                           <option>Tunis</option>
+                                           </AvField>
+                             </AvGroup>
+                          </Col> 
                            <Col className="pr-1" md="3">
                              <AvGroup>
                                            <label for="Genre">Genre</label>
@@ -366,4 +282,4 @@ render() {
     );
   }
 }
-export default ParticularDetails;
+export default ServiceProviderDetails;
