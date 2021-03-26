@@ -10,6 +10,8 @@ import ParticularDetails from "views/Gestion_Utilisateurs/ParticularDetails";
 import OrganisatorDetails from "views/Gestion_Utilisateurs/OrganisatorDetails";
 import ServiceProviderDetails from "views/Gestion_Utilisateurs/ServiceProviderDetails";
 import Tables from "views/examples/Tables.js";
+import OrganisatorHome from "views/Organisateur/OrganisatorHome";
+import ServiceProviderHome from "views/Prestataire/ServiceProviderHome";
 //import Profile from "views/examples/Profile";
 var routes = [
   // {
@@ -19,6 +21,21 @@ var routes = [
   //   component: Profile,
   //   layout: "/admin",
   // },
+  {
+    path: "/home",
+    name: "Home",
+    icon: "ni ni-tv-2 text-success",
+    component: OrganisatorHome,
+    layout: "/organisator"
+  },
+ 
+   {
+   path :"/home",
+   name :"Home",
+   icon: "ni ni-circle-08 text-success",
+   component :ServiceProviderHome,
+   layout:"/serviceprovider"
+   },
 
    {
     path: "/index",

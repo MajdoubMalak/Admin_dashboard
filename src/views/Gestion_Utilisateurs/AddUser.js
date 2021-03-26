@@ -2,15 +2,17 @@
 import Header from "components/Headers/Header.js";
 import React from "react";
 import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
-import {  Card, CardHeader, CardBody,FormGroup,Form,Input,Row,Col,Container, Button} from "reactstrap";
+import {  Card, CardHeader, CardBody,Row,Col,Container, Button} from "reactstrap";
 import { AvForm, AvField, AvGroup } from 'availity-reactstrap-validation';
-import PhoneInput from 'react-phone-number-input'
 import "react-web-tabs/dist/react-web-tabs.css";
 import axios from 'axios';
 
 class AddUser extends React.Component {
   constructor(props) {
     super(props);
+    this.ParticulierhandleSubmit = this.ParticulierhandleSubmit.bind(this);
+    this.OrganisateurhandleSubmit = this.OrganisateurhandleSubmit.bind(this);
+    this.PrestatairehandleSubmit = this.PrestatairehandleSubmit.bind(this);
     this.state = {
       username:'',
       email:'',
@@ -38,78 +40,169 @@ class AddUser extends React.Component {
       serviceprovidorgender:'',
     };
   }
+  ParticulierhandleSubmit(event, errors, values) {
+    console.log('Particulier');
+    this.setState({errors, values});
+    console.log (this.state.errors);
+    console.log ('longeur du tableau',this.state.errors.length);
+  if (this.state.errors.length>0) {alert ('vérifier les champs')} 
+  else {
+      axios.post("http://localhost:3100/users", {
+        username:this.state.username,
+        email:this.state.email,
+        phoneNumber:this.state.phoneNumber,
+        password:this.state.password,
+        age:this.state.age,
+        gender:this.state.gender
+        })
+        .then(res =>{
+            console.log("data", res.data);
+            
+            if(res.data=="user name exist !"){alert ('Nom existe')}
+            else if (res.data=="user email exist !"){alert ('adresse email existe')}
+            else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
+            else{
+            alert ('Utilisateur ajouté')
+            }
+        })    
+  }
+}
+OrganisateurhandleSubmit(event, errors, values) {
+  console.log('Organisateur');
+  this.setState({errors, values});
+  console.log (this.state.errors);
+  console.log ('longeur du tableau',this.state.errors.length);
+if (this.state.errors.length>0) {alert ('vérifier les champs')} 
+else {
+  console.log (this.state.organisatorusername);
+  console.log(this.state.organisatoremail);
+  console.log(this.state.organisatorphoneNumber);
+  axios.post("http://localhost:3100/organisator", {
+    organisatorname:this.state.organisatorusername,
+     email:this.state.organisatoremail,
+     phoneNumber:this.state.organisatorphoneNumber,
+     password:this.state.organisatorpassword,
+     age:this.state.organisatorage,
+     gender:this.state.organisatorgender,
+     region:this.state.organisatorregion,
+     category:this.state.organisatorcategory,
+     company:this.state.organisatorcompany
+     })
+     .then(res =>{
+         console.log("data", res.data);
+         if(res.data=="user name exist !"){alert ('Nom existe')}
+         else if (res.data=="user email exist !"){alert ('adresse email existe')}
+         else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
+         else{
+         alert ('Utilisateur ajouté')
+         }
+ 
+     })   
+}
+}
+PrestatairehandleSubmit(event, errors, values) {
+  console.log('Prestataire');
+  this.setState({errors, values});
+  console.log (this.state.errors);
+  console.log ('longeur du tableau',this.state.errors.length);
+if (this.state.errors.length>0) {alert ('vérifier les champs')} 
+else {
+  axios.post("http://localhost:3100/ServiceProvidor", {
+    serviceprovidorname:this.state.serviceprovidorusername,
+    email:this.state.serviceprovidoremail,
+    phoneNumber:this.state.serviceprovidorphoneNumber,
+    password:this.state.serviceprovidorpassword,
+    age:this.state.serviceprovidorage,
+    gender:this.state.serviceprovidorgender,
+    region:this.state.serviceprovidorregion,
+    category:this.state.serviceprovidorcategory,
+    company:this.state.serviceprovidorcompany
+    })
+    .then(res =>{
+        console.log("data", res.data);
+        if(res.data=="user name exist !"){alert ('Nom existe')}
+        else if (res.data=="user email exist !"){alert ('adresse email existe')}
+        else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
+        else{
+        alert ('Utilisateur ajouté')
+        }
 
-   particulierenvoyer() {
-    axios.post("http://localhost:3100/users", {
-      username:this.state.username,
-      email:this.state.email,
-      phoneNumber:this.state.phoneNumber,
-      password:this.state.password,
-      age:this.state.age,
-      gender:this.state.gender
-      })
-      .then(res =>{
-          console.log("data", res.data);
-          if(res.data=="user name exist !"){alert ('Nom existe')}
-          else if (res.data=="user email exist !"){alert ('adresse email existe')}
-          else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
-          else{
-          alert ('Utilisateur ajouté')
-          }
-  
-      })
-
-       }
-       Organisateurenvoyer() {
-
-       axios.post("http://localhost:3100/organisator", {
-        organisatorname:this.state.organisatorusername,
-         email:this.state.organisatoremail,
-         phoneNumber:this.state.organisatorphoneNumber,
-         password:this.state.organisatorpassword,
-         age:this.state.organisatorage,
-         gender:this.state.organisatorgender,
-         region:this.state.organisatorregion,
-         category:this.state.organisatorcategory,
-         company:this.state.organisatorcompany
-         })
-         .then(res =>{
-             console.log("data", res.data);
-             if(res.data=="user name exist !"){alert ('Nom existe')}
-             else if (res.data=="user email exist !"){alert ('adresse email existe')}
-             else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
-             else{
-             alert ('Utilisateur ajouté')
-             }
-     
-         })
+    })   
+}
+}
+  //  particulierenvoyer() { 
    
-          }
-          Prestatenvoyer() {
-
-            axios.post("http://localhost:3100/ServiceProvidor", {
-              serviceprovidorname:this.state.serviceprovidorusername,
-              email:this.state.serviceprovidoremail,
-              phoneNumber:this.state.serviceprovidorphoneNumber,
-              password:this.state.serviceprovidorpassword,
-              age:this.state.serviceprovidorage,
-              gender:this.state.serviceprovidorgender,
-              region:this.state.serviceprovidorregion,
-              category:this.state.serviceprovidorcategory,
-              company:this.state.serviceprovidorcompany
-              })
-              .then(res =>{
-                  console.log("data", res.data);
-                  if(res.data=="user name exist !"){alert ('Nom existe')}
-                  else if (res.data=="user email exist !"){alert ('adresse email existe')}
-                  else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
-                  else{
-                  alert ('Utilisateur ajouté')
-                  }
+  //   axios.post("http://localhost:3100/users", {
+  //     username:this.state.username,
+  //     email:this.state.email,
+  //     phoneNumber:this.state.phoneNumber,
+  //     password:this.state.password,
+  //     age:this.state.age,
+  //     gender:this.state.gender
+  //     })
+  //     .then(res =>{
+  //         console.log("data", res.data);
           
-              })
+  //         if(res.data=="user name exist !"){alert ('Nom existe')}
+  //         else if (res.data=="user email exist !"){alert ('adresse email existe')}
+  //         else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
+  //         else{
+  //         alert ('Utilisateur ajouté')
+  //         }
+  
+  //     })
+
+  //      }
+      //  Organisateurenvoyer() {
+
+      //  axios.post("http://localhost:3100/organisator", {
+      //   organisatorname:this.state.organisatorusername,
+      //    email:this.state.organisatoremail,
+      //    phoneNumber:this.state.organisatorphoneNumber,
+      //    password:this.state.organisatorpassword,
+      //    age:this.state.organisatorage,
+      //    gender:this.state.organisatorgender,
+      //    region:this.state.organisatorregion,
+      //    category:this.state.organisatorcategory,
+      //    company:this.state.organisatorcompany
+      //    })
+      //    .then(res =>{
+      //        console.log("data", res.data);
+      //        if(res.data=="user name exist !"){alert ('Nom existe')}
+      //        else if (res.data=="user email exist !"){alert ('adresse email existe')}
+      //        else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
+      //        else{
+      //        alert ('Utilisateur ajouté')
+      //        }
+     
+      //    })
+   
+      //     }
+      //     Prestatenvoyer() {
+
+      //       axios.post("http://localhost:3100/ServiceProvidor", {
+      //         serviceprovidorname:this.state.serviceprovidorusername,
+      //         email:this.state.serviceprovidoremail,
+      //         phoneNumber:this.state.serviceprovidorphoneNumber,
+      //         password:this.state.serviceprovidorpassword,
+      //         age:this.state.serviceprovidorage,
+      //         gender:this.state.serviceprovidorgender,
+      //         region:this.state.serviceprovidorregion,
+      //         category:this.state.serviceprovidorcategory,
+      //         company:this.state.serviceprovidorcompany
+      //         })
+      //         .then(res =>{
+      //             console.log("data", res.data);
+      //             if(res.data=="user name exist !"){alert ('Nom existe')}
+      //             else if (res.data=="user email exist !"){alert ('adresse email existe')}
+      //             else if (res.data=="user phone number exist !") {alert ('numéro de téléphone existe')}
+      //             else{
+      //             alert ('Utilisateur ajouté')
+      //             }
+          
+      //         })
         
-               }
+      //          }
 //  handleChange(event){
 //     console.log('champ choisi', event.target.value );
 //     this.setState({gender: event.target.value})
@@ -142,7 +235,7 @@ class AddUser extends React.Component {
                   {/* ///////////////////////Particulier//////////////////////////////////////////        */}
                   <TabPanel tabId="one">
                     <CardBody>
-                    <AvForm>
+                    <AvForm onSubmit={this.ParticulierhandleSubmit}>
                         <Row>
                           <Col className="pr-1" md="3">
                             <AvGroup>
@@ -150,7 +243,7 @@ class AddUser extends React.Component {
                                         <AvField placeholder="Username" name="username" type="text" required
                                         errorMessage="Nom Invalide" validate={{
                                           required: {value: true, errorMessage: 'Ce champ est obligatoire'},
-                                          minLength: {value: 6, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
+                                          minLength: {value: 4, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
                                           maxLength: {value: 16, errorMessage: 'Le nom doit être entre 4 et 16 caractères'}
                                         }}
                                         value={this.state.username}
@@ -161,7 +254,7 @@ class AddUser extends React.Component {
                             <AvGroup>
                               <label htmlFor="Email">Address Email</label>
                                          <AvField placeholder="Email" name="originalEmail" type="email" required
-                                         errorMessage="Nom invalide" validate={{
+                                         errorMessage="adresse email invalide" validate={{
                                          required: {value: true, errorMessage: 'Ce champ est obligatoire'},
                                          pattern: {value: '^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+', errorMessage: ' ne correspnd à une adresse email'}
                                          }}
@@ -178,7 +271,7 @@ class AddUser extends React.Component {
                                           placeholder="Mot de passe" name="originalpassword" type="password" required
                                           errorMessage="Mot de passe invalide" validate={{
                                             required: {value: true, errorMessage: 'Ce champ est obligatoire'},
-                                            minLength: {value: 6, errorMessage: 'Le mot de passe doit être entre 4 et 16 caractères'},
+                                            minLength: {value: 4, errorMessage: 'Le mot de passe doit être entre 4 et 16 caractères'},
                                             maxLength: {value: 16,  errorMessage: 'Le mot de passe doit être entre 4 et 16 caractères'}
                                           }}
                                         
@@ -188,7 +281,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="3">
                           <AvGroup>
                                
-                                         <AvField name="confirmationPassword"  placeholder="Confirmer le mot de passe" label="Confirmer le mot de passe" type="password" validate={{match:{value:'originalpassword', errorMessage:"mot de passe incorrecte"}}}/>
+                                         <AvField name="confirmationPassword"  placeholder="Confirmer le mot de passe" required label="Confirmer le mot de passe" type="password" validate={{match:{value:'originalpassword', errorMessage:"mot de passe incorrecte"}}}/>
                            </AvGroup>
                           </Col>
                         </Row>
@@ -222,7 +315,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="2">
                             <AvGroup>
                                           <label for="Genre">Genre</label>
-                                          <AvField type="select" name="gender" id="gender" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({gender: event.target.value})}>
+                                          <AvField type="select" name="gender" id="gender" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({gender: event.target.value})}>
                                         
                                             <option>Autre</option>
                                             <option>Homme</option>
@@ -230,21 +323,25 @@ class AddUser extends React.Component {
                                           </AvField>
                             </AvGroup>
  
-                          </Col>
+                          </Col>  
                           </Row>
                           <Row>
-                          <Col className="pr-1" md="3"> 
-                          <Button onClick ={ () => this.particulierenvoyer()}>Ajouter</Button>
-                          </Col>
+                            <Col className="pr-1" md="3"> 
+                          <Button type="submit">Ajouter</Button>
+                          </Col> 
                           </Row>
-
                           </AvForm>
+                          {this.state.values && <div>
+                         <h5>soumission des données </h5>
+                          Invalid: {this.state.errors.join(', ')}<br />
+                           Values: <pre>{JSON.stringify(this.state.values, null, 2)}</pre>
+                           </div>}
                     </CardBody>
                   </TabPanel>
                   {/* ///////////////////////Organisateur//////////////////////////////////////////        */}
                   <TabPanel tabId="two">
                   <CardBody>
-                  <AvForm>
+                  <AvForm onSubmit={this.OrganisateurhandleSubmit}>
                         <Row>
                         <Col className="pr-1" md="3">
                             <AvGroup>
@@ -252,7 +349,7 @@ class AddUser extends React.Component {
                                         <AvField placeholder="Username" name="username" type="text" required
                                         errorMessage="Nom Invalide" validate={{
                                           required: {value: true, errorMessage: 'Ce champ est obligatoire'},
-                                          minLength: {value: 6, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
+                                          minLength: {value: 4, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
                                           maxLength: {value: 16, errorMessage: 'Le nom doit être entre 4 et 16 caractères'}
                                         }}
                                         value={this.state.organisatorusername}
@@ -291,7 +388,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="3">
                           <AvGroup>
                                
-                               <AvField name="confirmationPassword"  placeholder="Confirmer le mot de passe" label="Confirmer le mot de passe" type="password" validate={{match:{value:'originalorganisatorpassword', errorMessage:"mot de passe incorrecte"}}}/>
+                               <AvField name="confirmationPassword"  placeholder="Confirmer le mot de passe" required label="Confirmer le mot de passe" type="password" validate={{match:{value:'originalorganisatorpassword', errorMessage:"mot de passe incorrecte"}}}/>
                            </AvGroup>
                           </Col>
                           <Col className="pr-1" md="3">
@@ -325,7 +422,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="2">
                           <AvGroup>
                                           <label for="Genre">Catégorie</label>
-                                          <AvField type="select" name="category" id="category" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorcategory: event.target.value})}>
+                                          <AvField type="select" name="category" id="category" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorcategory: event.target.value})}>
                                         
                                             <option>Festival</option>
                                             <option>Anniversaire</option>
@@ -335,7 +432,7 @@ class AddUser extends React.Component {
                           </Col>
                           <Col className="pr-1" md="2">
                           <label for="Société">Société</label>
-                          <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorregion: event.target.value})}>
+                          <AvField type="select" name="Genre" id="Genre" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorregion: event.target.value})}>
                                         
                                         <option>Tunis</option>
                                         <option>Sfax</option>
@@ -357,7 +454,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="2">
                           <AvGroup>
                                           <label for="Genre">Genre</label>
-                                          <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorgender: event.target.value})}>
+                                          <AvField type="select" name="Genre" id="Genre" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorgender: event.target.value})}>
                                         
                                             <option>Autre</option>
                                             <option>Homme</option>
@@ -369,16 +466,21 @@ class AddUser extends React.Component {
                           </Row>
                           <Row>
                           <Col className="pr-1" md="3"> 
-                          <Button onClick ={ () => this.Organisateurenvoyer()}>Ajouter</Button>
+                          <Button type="submit">Ajouter</Button>
                           </Col>
                           </Row>
                      </AvForm>
+                          {this.state.values && <div>
+                         <h5>soumission des données </h5>
+                          Invalid: {this.state.errors.join(', ')}<br />
+                          Values: <pre>{JSON.stringify(this.state.values, null, 2)}</pre>
+                          </div>}
                     </CardBody>
                   </TabPanel>
                   {/* ///////////////////////Prestataire//////////////////////////////////////////        */}
                   <TabPanel tabId="three">
                   <CardBody>
-                  <AvForm>
+                  <AvForm onSubmit={this.PrestatairehandleSubmit}>
                         <Row>
                         <Col className="pr-1" md="3">
                             <AvGroup>
@@ -386,7 +488,7 @@ class AddUser extends React.Component {
                                         <AvField placeholder="Username" name="username" type="text" required
                                         errorMessage="Nom Invalide" validate={{
                                           required: {value: true, errorMessage: 'Ce champ est obligatoire'},
-                                          minLength: {value: 6, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
+                                          minLength: {value: 4, errorMessage: 'Le nom doit être entre 4 et 16 caractères'},
                                           maxLength: {value: 16, errorMessage: 'Le nom doit être entre 4 et 16 caractères'}
                                         }}
                                         value={this.state.serviceprovidorusername}
@@ -425,7 +527,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="3">
                           <AvGroup>
                                
-                               <AvField name="confirmationPassword"  placeholder="Confirmer le mot de passe" label="Confirmer le mot de passe" type="password" validate={{match:{value:'originalserviceprovidorpassword', errorMessage:"mot de passe incorrecte"}}}/>
+                               <AvField name="confirmationPassword"  placeholder="Confirmer le mot de passe" label="Confirmer le mot de passe" required type="password" validate={{match:{value:'originalserviceprovidorpassword', errorMessage:"mot de passe incorrecte"}}}/>
                            </AvGroup>
                           </Col>
                           <Col className="pr-1" md="3">
@@ -459,7 +561,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="2">
                           <AvGroup>
                                           <label for="Genre">Catégorie</label>
-                                          <AvField type="select" name="category" id="category" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorcategory: event.target.value})}>
+                                          <AvField type="select" name="category" id="category" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorcategory: event.target.value})}>
                                         
                                             <option>Festival</option>
                                             <option>Anniversaire</option>
@@ -469,7 +571,7 @@ class AddUser extends React.Component {
                           </Col>
                           <Col className="pr-1" md="2">
                           <label for="Société">Société</label>
-                          <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorregion: event.target.value})}>
+                          <AvField type="select" name="Genre" id="Genre" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorregion: event.target.value})}>
                                         
                                         <option>Tunis</option>
                                         <option>Sfax</option>
@@ -491,7 +593,7 @@ class AddUser extends React.Component {
                           <Col className="pr-1" md="2">
                           <AvGroup>
                                           <label for="Genre">Genre</label>
-                                          <AvField type="select" name="Genre" id="Genre" value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorgender: event.target.value})}>
+                                          <AvField type="select" name="Genre" id="Genre" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorgender: event.target.value})}>
                                         
                                             <option>Autre</option>
                                             <option>Homme</option>
@@ -503,10 +605,15 @@ class AddUser extends React.Component {
                           </Row>
                           <Row>
                           <Col className="pr-1" md="3"> 
-                          <Button onClick ={ () => this.Prestatenvoyer()}>Ajouter</Button>
+                          <Button type="submit">Ajouter</Button>
                           </Col>
                           </Row>
                      </AvForm>
+                        {this.state.values && <div>
+                         <h5>soumission des données </h5>
+                          Invalid: {this.state.errors.join(', ')}<br />
+                          Values: <pre>{JSON.stringify(this.state.values, null, 2)}</pre>
+                         </div>}
                     </CardBody>
                   </TabPanel>
                 </Tabs>

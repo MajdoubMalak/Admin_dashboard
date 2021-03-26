@@ -2,11 +2,18 @@
 import React from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 import { PropTypes } from "prop-types";
-import {Collapse,DropdownMenu,DropdownItem,UncontrolledDropdown,DropdownToggle,Form,Input,InputGroupAddon,InputGroupText,
-InputGroup, Media,Navbar, NavItem,NavLink, Nav,Container,Row,Col} from "reactstrap";
+import {
+  Collapse,
+  Navbar,
+  NavItem,
+  NavLink,
+  Nav,
+  Container,
+} from "reactstrap";
 
+var ps;
 
-class Sidebar extends React.Component {
+class ServiceProviderSidebar extends React.Component {
   state = {
     collapseOpen: false
   };
@@ -65,31 +72,36 @@ class Sidebar extends React.Component {
       <Navbar
         className="navbar-vertical fixed-left navbar-light bg-white"
         expand="md"
-        id="sidenav-main" >
+        id="sidenav-main"
+      >
         <Container fluid>
+          {/* Toggler */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            onClick={this.toggleCollapse}
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+       
+          {/* Collapse */}
           <Collapse navbar isOpen={this.state.collapseOpen}>
-            <h1><a href="/admin">Bienvenue </a></h1>
-            <br></br> 
-             <h4><i class= "ni ni-circle-08 text-success"> </i> <a href="/admin/Particulars">  Liste des particuliers</a></h4> 
-             <br></br>
-             <h4> <i class= "ni ni-circle-08 text-success"> </i><a href="/admin/Organisators">  Liste des organisateurs</a> </h4>
-             <br></br>
-             <h4> <i class= "ni ni-circle-08 text-success"> </i><a href="/admin/ServiceProviders">  Liste des prestataires</a> </h4>
-             <br></br>
-             <h4> <i class= "ni ni-circle-08 text-success"> </i><a href="/admin/AddUser">  Ajouter un utilisateur</a> </h4>
-             <br></br>
+
+           <h1>Page Prestataire</h1>
+         
+           <h3><a href={'#'}> <i class="ni ni-tv-2 text-success "></i> Evenements</a></h3>
           </Collapse>
         </Container>
-      </Navbar>
+      </Navbar> 
     );
   }
 }
 
-Sidebar.defaultProps = {
+ServiceProviderSidebar.defaultProps = {
   routes: [{}]
 };
 
-Sidebar.propTypes = {
+ServiceProviderSidebar.propTypes = {
   // links that will be displayed inside the component
   routes: PropTypes.arrayOf(PropTypes.object),
   logo: PropTypes.shape({
@@ -106,4 +118,4 @@ Sidebar.propTypes = {
   })
 };
 
-export default Sidebar;
+export default ServiceProviderSidebar;
