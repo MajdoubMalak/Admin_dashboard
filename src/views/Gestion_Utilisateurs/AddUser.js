@@ -431,8 +431,8 @@ else {
                             </AvGroup>
                           </Col>
                           <Col className="pr-1" md="2">
-                          <label for="Société">Société</label>
-                          <AvField type="select" name="Genre" id="Genre" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorregion: event.target.value})}>
+                          <label for="région">Région</label>
+                          <AvField type="select" name="region" id="region" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({organisatorregion: event.target.value})}>
                                         
                                         <option>Tunis</option>
                                         <option>Sfax</option>
@@ -570,8 +570,8 @@ else {
                             </AvGroup>
                           </Col>
                           <Col className="pr-1" md="2">
-                          <label for="Société">Société</label>
-                          <AvField type="select" name="Genre" id="Genre" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorregion: event.target.value})}>
+                          <label for="Région">Région</label>
+                          <AvField type="select" name="region" id="region" required value={this.state.value} defaultValue={this.state.value} onChange={event => this.setState({serviceprovidorregion: event.target.value})}>
                                         
                                         <option>Tunis</option>
                                         <option>Sfax</option>

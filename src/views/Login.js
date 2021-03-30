@@ -37,7 +37,7 @@ class Login extends React.Component {
               
               localStorage.setItem('BearerToken',res.data)
               console.log('Bearer Token',res.data)
-              window.location.href="/organisateur"
+              window.location.href="/organisator"
            }
     
         }) 
@@ -64,7 +64,7 @@ class Login extends React.Component {
              else{
               localStorage.setItem('BearerToken',res.data)
               console.log('Bearer Token',res.data)
-             window.location.href="/prestataire"
+             window.location.href="/serviceprovider"
            }
     
         })  
